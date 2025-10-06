@@ -5,6 +5,8 @@ import { Button } from '../components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
 import type{ User, ErrorResponse } from '../types';
 
+
+const apiURL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string>('');
@@ -20,7 +22,7 @@ const Profile = () => {
       }
       try {
         console.log('Fetching profile with token:', token); // Debug log
-        const res = await axios.get<User>('/api/auth/profile', {
+        const res = await axios.get<User>(`${apiURL}/api/auth/profile`, {
           headers: { Authorization: `Bearer ${String(token)}` }, // Normalize to string for header
         });
         setUser(res.data);
