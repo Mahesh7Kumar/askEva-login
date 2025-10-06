@@ -14,12 +14,15 @@ const Register = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
+
+  const apiURL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     try {
-      await axios.post<AuthResponse>(`${import.meta.env.VITE_API_URL}/api/auth/register`, { name, email, password });
+     const response = await axios.post<AuthResponse>(`${apiURL}/api/auth/register`, { name, email, password });
+     console.log('Registration successful:', response.data);
       navigate('/login');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed');
