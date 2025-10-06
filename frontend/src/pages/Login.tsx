@@ -13,12 +13,15 @@ const Login = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
+
+  const apiURL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     try {
-      const response = await axios.post<AuthResponse>(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password });
+      const response = await axios.post<AuthResponse>(`${apiURL}/api/auth/login`, { email, password });
+      console.log('Login successful:', response.data);
       // Normalize token to string for storage
       const token = String(response.data.token);
       localStorage.setItem('token', token);
